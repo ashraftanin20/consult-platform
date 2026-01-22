@@ -55,6 +55,21 @@ class User extends Authenticatable
 
     public function hasRole(string $role): bool
     {
-        return $this->roles->where('name', $role)->exists();
+        return $this->roles()->where('name', $role)->exists();
+    }
+
+    public function availabilitySlots()
+    {
+        return $this->hasMany(AvailabilitySlot::class, 'professional_id');
+    }
+
+    public function appointmentAsProfessional()
+    {
+        return $this->hasMany(Appointment::class, 'professional_id');
+    }
+
+    public function appointmentAsClient()
+    {
+        return $this->hasMany(Appointment::class, 'client_id');
     }
 }
