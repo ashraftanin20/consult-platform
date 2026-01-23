@@ -27,4 +27,9 @@ class Appointment extends Model
     {
         return $this->belongsTo(User::class, 'professional_id');
     }
+
+    public function history()
+    {
+        return $this->hasOne(ConsultationHisotry::class);
+    }
 }
