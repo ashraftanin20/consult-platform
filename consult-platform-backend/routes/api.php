@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Client\AppointmentController as ClientAppointmentCo
 use App\Http\Controllers\Api\Professional\AppointmentController as ProfessionalAppointmentController;
 use App\Controllers\Api\Professional\ConsultationHistoryController as ProfessionalConsulationHistory;
 use App\Controllers\Api\ConsultationHistoryController;
+use App\Controllers\Api\MessageController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -32,4 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class], 'me');
 
     Route::get('/appointment/{id}/history', [ConsultationHistoryController::class, 'show']);
+
+    Route::post('/appointment/{id}/messages', [MessageController::class, 'send']);
+    Route::get('/appointment/{id}/messages', [MessageController::class, 'conversation']);
+    Route::post('/messages/{id}/read', [MessageController::class, 'markAsRead']);
 });
