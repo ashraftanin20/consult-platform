@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Models\Appointment;
-use App\Http\Controllers\Api\Controller;
+use App\Http\Controllers\Controller;
 use App\Services\NotificationService;
 
 class MessageController extends Controller

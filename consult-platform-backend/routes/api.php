@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\Professional\PrescriptionController as ProfessionalPrescriptionController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Api\Admin\UserController;
+use App\Http\Controllers\Api\Admin\AppointmentController as AdminAppointmentController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -48,4 +50,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+});
+
+Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get('/users', [UserController::class, 'index']);
+    Route::post('/users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
+    Route::get('/appointments', [AdminAppointmentController::class, 'index']);
 });

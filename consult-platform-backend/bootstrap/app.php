@@ -20,7 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
+        $middleware->append(\App\Http\Middleware\EnsureUserIsActive::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
