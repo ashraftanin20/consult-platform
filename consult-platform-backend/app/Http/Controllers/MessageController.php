@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Models\Appointment;
 use App\Http\Controllers\Api\Controller;
+use App\Services\NotificationService;
 
 class MessageController extends Controller
 {
@@ -33,6 +34,15 @@ class MessageController extends Controller
             'content' => $date[cotent],
         ]);
 
+        Notification::send(
+           $receiverId,
+            'message_received',
+            [
+                'appointment_id' => $appointment->id,
+                'sender_id' => $request->user()->id
+            ]
+        );
+        
         return response->json($message, 201);
     }
 

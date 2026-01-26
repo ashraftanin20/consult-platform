@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Api\Professional;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
-use App\models\AvailabilitySlot;
+use App\Models\AvailabilitySlot;
+use App\Services\NotificationService;
 
 class AppointmentController extends Controller
 {
@@ -26,6 +27,14 @@ class AppointmentController extends Controller
 
         $appointment->update(['status' => 'approved']);
 
+        Notification::send(
+            $appointment->client_id,
+            'appointment_approved',
+            [
+                'appointment_id' => $appointment->id
+            ]
+        );
+        
         return response()->json(['message' => 'Appointment approved']);
     }
 

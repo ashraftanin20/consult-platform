@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ConsultationHistoryController;
 use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\Professional\PrescriptionController as ProfessionalPrescriptionController;
 use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\NotificationController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -44,4 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/messages/{id}/read', [MessageController::class, 'markAsRead']);
 
     Route::get('/apointments/{id}/prescription', [PrescriptionController::class, 'show']);
+
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
 });

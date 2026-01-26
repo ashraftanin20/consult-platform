@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
 use App\Models\Prescription;
+use App\Services\NotificationService;
 
 class PrescriptionController extends Controller
 {
@@ -36,6 +37,14 @@ class PrescriptionController extends Controller
             ...$data
         ]);
 
+        Notification::send(
+            $appointment->cleint_id,
+            'prescription_created',
+            [
+                'appointment_id' => $appointment->id
+            ]
+        );
+        
         return response()->json($prescription, 201);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AvailabilitySlot;
 use App\Models\Appointment;
+use App\Services\NotificationService;
 
 class AppointmentController extends Controller
 {
@@ -35,6 +36,15 @@ class AppointmentController extends Controller
 
         $slot->update(['is_booked' => true]);
 
+        Notification::send(
+            $slot->professional_id,
+            'appointment_request',
+            [
+                'appointment_id' => $appointment->id,
+                'client_name' => $request->user()->name
+            ]
+        );
+        
         return response()->json($appointment, 201);
     }
 
