@@ -32,4 +32,9 @@ class Appointment extends Model
     {
         return $this->hasOne(ConsultationHisotry::class);
     }
+
+    public function prescription()
+    {
+        return $this->hosOne(prescription::class);
+    }
 }
