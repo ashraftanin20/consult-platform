@@ -1,12 +1,24 @@
+import { Route, Routes } from "react-router-dom"
+import Navbar from "./components/Navbar"
+import Home from "./pages/public/Home"
+import About from "./pages/public/About"
+import Login from "./pages/public/Login"
+import Register from "./pages/public/Register"
+
 function App() {
 
   return (
     <>
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <h1 className="text-3xl font-bold text-blue-600">Consult Platform</h1>  
-      </div>
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
     </>
-  )
+  );
 }
 
 export default App
