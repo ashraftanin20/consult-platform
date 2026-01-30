@@ -18,4 +18,4 @@ This project helps people in poor countries to get consultancy assistance from p
 ### Backend
 - PHP, Laravel, MySQL, LaravelSanctum
 ### Frontend
-- TypeScript, React, HTML, CSS
+- TypeScript, React, HTML, vite, Tailwind CSS
