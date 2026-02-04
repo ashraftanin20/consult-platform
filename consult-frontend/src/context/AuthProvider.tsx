@@ -1,23 +1,29 @@
 import { useState, type ReactNode } from "react";
-import { AuthContext } from "./AuthContext";
-import type { User } from "../type/User";
+import { AuthContext, type AuthUser } from "./AuthContext";
 
-export const AuthProvider = ({ children }: { children: ReactNode}) => {
-    const [user, setUser] = useState<User | null>(null);
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
-    const login = (data: {token: string; user: User}) => {
-        localStorage.setItem("token", data.token);
-        setUser(data.user);
-    }
+  const login = (data: { user: AuthUser; token: string }) => {
+    setUser(data.user);
+    setToken(data.token);
+    localStorage.setItem("token", data.token);
+  };
 
-    const logout = () => {
-        localStorage.removeItem("token");
-        setUser(null);
-    }
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem("token");
+  };
 
-    return (
-        <AuthContext.Provider value={{ user, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
-}
+  const isAuthenticated = Boolean(token);
+
+  return (
+    <AuthContext.Provider
+      value={{ user, token, isAuthenticated, login, logout }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};

@@ -14,6 +14,9 @@ use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Admin\AppointmentController as AdminAppointmentController;
+use App\Http\Controllers\Api\Admin\AdminDashboardController;
+use App\Http\Controllers\Api\Professional\ProfessionalDashboardController;
+use App\Http\Controllers\Api\Client\ClientDashboardController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -56,4 +59,23 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
     Route::get('/appointments', [AdminAppointmentController::class, 'index']);
+});
+
+Route::middleware(['auth:sanctum', 'active'])->group(function () {
+
+    Route::get('/me', function (Request $request) {
+        return $request->user()->load('roles');
+    });
+
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/admin/dashboard', AdminDashboardController::class);
+    });
+
+    Route::middleware('role:professional')->group(function () {
+        Route::get('/professional/dashboard', ProfessionalDashboardController::class);
+    });
+
+    Route::middleware('role:client')->group(function () {
+        Route::get('/client/dashboard', ClientDashboardController::class);
+    });
 });
